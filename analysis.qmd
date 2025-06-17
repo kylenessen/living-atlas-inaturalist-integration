@@ -38,8 +38,9 @@ cnddb <- st_read("data/gis_com/cnddb.shp")
 ```{r species-analysis}
 library(dplyr)
 library(lubridate)
+library(stringr)
 
-# Convert SITEDATE to proper date format
+# Convert SITEDATE to proper date format and clean species names
 cnddb_clean <- cnddb %>%
     mutate(
         # Handle various date formats in SITEDATE
@@ -49,18 +50,28 @@ cnddb_clean <- cnddb %>%
             TRUE ~ as.Date(NA)
         ),
         # Flag records from last 3 years
-        recent_record = !is.na(site_date) & site_date >= (Sys.Date() - years(3))
+        recent_record = !is.na(site_date) & site_date >= (Sys.Date() - years(3)),
+        # Clean species names for better GBIF matching
+        SNAME_clean = SNAME %>%
+            str_remove_all(" pop\\. \\d+") %>%
+            str_replace_all(" ssp\\. ", " ") %>%
+            str_replace_all(" var\\. ", " ") %>%
+            str_trim() %>%
+            str_squish()
     )
 
-# Species summary with counts and recent records
+# Species summary with counts and recent records (grouped by cleaned names)
 species_summary <- cnddb_clean %>%
     st_drop_geometry() %>%
-    group_by(SNAME, CNAME) %>%
+    group_by(SNAME_clean) %>%
     summarise(
         total_records = n(),
         recent_records = sum(recent_record, na.rm = TRUE),
         earliest_date = min(site_date, na.rm = TRUE),
         latest_date = max(site_date, na.rm = TRUE),
+        # Keep track of original names for reference
+        original_names = paste(unique(SNAME), collapse = "; "),
+        common_names = paste(unique(CNAME), collapse = "; "),
         .groups = "drop"
     ) %>%
     arrange(desc(total_records))
@@ -75,8 +86,8 @@ head(species_summary, 10)
 
 # Save species list for GBIF queries
 cnddb_species_list <- species_summary %>%
-  select(SNAME, CNAME, total_records, recent_records) %>%
-  arrange(SNAME)
+  select(SNAME_clean, original_names, common_names, total_records, recent_records) %>%
+  arrange(SNAME_clean)
 
 # Export to CSV for reference
 write.csv(cnddb_species_list, "data/cnddb_species_list.csv", row.names = FALSE)
@@ -85,16 +96,30 @@ cat("Species list saved to data/cnddb_species_list.csv\n")
 cat("Total species for GBIF queries:", nrow(cnddb_species_list), "\n")
 ```
 
-# GBIF
-Query all data for the list of sensitive species
+# GBIF Data
 
-```{r gbif-setup}
-library(rgbif)
+Load the GBIF occurrence data downloaded via gbif_download.qmd
 
-# Get the species list
-species_for_gbif <- cnddb_species_list$SNAME
+```{r load-gbif}
+library(readr)
 
-cat("Preparing to query GBIF for", length(species_for_gbif), "species\n")
-cat("First 10 species to query:\n")
-head(species_for_gbif, 10)
+# Check if GBIF data exists
+if(!file.exists("data/gbif_occurrences.csv")) {
+  stop("GBIF data not found. Run gbif_download.qmd first to download the data.")
+}
+
+# Load GBIF occurrences
+gbif_data <- read_csv("data/gbif_occurrences.csv")
+
+# Load the matching information
+gbif_matches <- read_csv("data/gbif_good_matches.csv")
+
+# Basic summary
+cat("GBIF Records Summary:\n")
+cat("Total records:", nrow(gbif_data), "\n")
+cat("Unique species:", length(unique(gbif_data$species)), "\n")
+cat("Date range:", min(gbif_data$eventDate, na.rm = TRUE), "to", max(gbif_data$eventDate, na.rm = TRUE), "\n")
+
+# Show data structure
+head(gbif_data)
 ```
