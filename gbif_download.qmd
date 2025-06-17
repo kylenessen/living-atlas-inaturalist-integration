@@ -23,6 +23,16 @@ library(readr)
 library(dplyr)
 library(rgbif)
 
+# Load GBIF credentials from .Renviron
+readRenviron(".Renviron")
+
+# Verify credentials are loaded
+if(Sys.getenv("GBIF_USER") == "" || Sys.getenv("GBIF_PWD") == "" || Sys.getenv("GBIF_EMAIL") == "") {
+  stop("GBIF credentials not found. Check your .Renviron file.")
+} else {
+  cat("GBIF credentials loaded for user:", Sys.getenv("GBIF_USER"), "\n")
+}
+
 # Load the species list created by analysis.qmd
 if(!file.exists("data/cnddb_species_list.csv")) {
   stop("Species list not found. Run analysis.qmd first to generate data/cnddb_species_list.csv")
