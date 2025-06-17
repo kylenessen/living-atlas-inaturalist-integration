@@ -179,3 +179,52 @@ ggplot(inst_counts_top, aes(x = reorder(institutionCode, -N), y = N)) +
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+
+## GBIF Species Summary
+
+```{r gbif-species-summary}
+# Create species summary for GBIF data
+gbif_species_summary <- gbif_data[
+  !is.na(species) & !is.na(year),  # Filter out records without species or year
+  .(
+    usageKey = first(na.omit(taxonKey)),  # Keep usageKey as requested
+    total_records = .N,
+    recent_records = sum(year >= (year(Sys.Date()) - 3), na.rm = TRUE),
+    recent_inaturalist_records = sum(year >= (year(Sys.Date()) - 3) & 
+                                   (institutionCode == "iNaturalist" | 
+                                    institutionCode == "iNat" | 
+                                    grepl("iNaturalist", institutionCode, ignore.case = TRUE)), na.rm = TRUE),
+    recent_other_records = sum(year >= (year(Sys.Date()) - 3) & 
+                             !(institutionCode == "iNaturalist" | 
+                               institutionCode == "iNat" | 
+                               grepl("iNaturalist", institutionCode, ignore.case = TRUE)) & 
+                             !is.na(institutionCode), na.rm = TRUE),
+    inaturalist_records = sum(institutionCode == "iNaturalist" | 
+                             institutionCode == "iNat" | 
+                             grepl("iNaturalist", institutionCode, ignore.case = TRUE), na.rm = TRUE),
+    other_institution_records = sum(!(institutionCode == "iNaturalist" | 
+                                     institutionCode == "iNat" | 
+                                     grepl("iNaturalist", institutionCode, ignore.case = TRUE)) & 
+                                   !is.na(institutionCode), na.rm = TRUE),
+    earliest_year = min(year, na.rm = TRUE),
+    latest_year = max(year, na.rm = TRUE),
+    top_institutions = paste(head(names(sort(table(institutionCode), decreasing = TRUE)), 3), collapse = "; ")
+  ),
+  by = species
+][order(-total_records)]
+
+# Display summary statistics
+cat("Total unique species in GBIF data:", nrow(gbif_species_summary), "\n")
+cat("Species with records in last 3 years:", sum(gbif_species_summary$recent_records > 0), "\n")
+cat("Species with recent iNaturalist records:", sum(gbif_species_summary$recent_inaturalist_records > 0), "\n")
+cat("Species with recent other institution records:", sum(gbif_species_summary$recent_other_records > 0), "\n")
+cat("Total recent records:", sum(gbif_species_summary$recent_records), "\n")
+cat("Total recent iNaturalist records:", sum(gbif_species_summary$recent_inaturalist_records), "\n")
+cat("Total recent other institution records:", sum(gbif_species_summary$recent_other_records), "\n")
+cat("Total iNaturalist records:", sum(gbif_species_summary$inaturalist_records), "\n")
+
+# Show top species by record count
+head(gbif_species_summary, 15)
+```
+
+## Summary stats
