@@ -1,3 +1,6 @@
 .DS_Store
 data/gis_com/
 .Rproj.user
+.Renviron
+data/gbif_occurrences.csv
+data/gbif_*.zip
