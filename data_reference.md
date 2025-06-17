@@ -77,3 +77,65 @@
 - Includes taxonomic hierarchy (kingdom through species)
 - Links synonyms to accepted names via acceptedUsageKey
 - Filtered results saved separately as "good matches" (exact, non-alternative, valid taxon keys)
+
+## GBIF Occurrence Data
+
+**File**: `data/0050088-250525065834625.csv`
+**Records**: 10,567,290
+**Columns**: 50
+
+### Key Fields
+
+| Field | Type | Description | Sample Values |
+|-------|------|-------------|---------------|
+| gbifID | int64 | Unique GBIF occurrence ID | 1213064528, 1270119042... |
+| datasetKey | chr | Dataset identifier | "005eb8d8-ed94-41be-89cf..." |
+| occurrenceID | chr | Occurrence identifier | "53c88e94-3a39-4f59-beb6..." |
+| kingdom | chr | Kingdom | "Animalia" |
+| phylum | chr | Phylum | "Mollusca", "Arthropoda" |
+| class | chr | Class | "Gastropoda", "Insecta" |
+| order | chr | Order | "Lepidoptera", "Chiroptera" |
+| family | chr | Family | "Planorbidae", "Plebeiinae" |
+| genus | chr | Genus | "Helisoma", "Plebeius" |
+| species | chr | Species binomial | "Helisoma newberryi" |
+| infraspecificEpithet | chr | Subspecies/variety name | Mostly empty |
+| taxonRank | chr | Taxonomic rank | "SPECIES", "UNRANKED" |
+| scientificName | chr | Full scientific name with authority | "Helisoma newberryi (I.Lea, 1858)" |
+| verbatimScientificName | chr | Original scientific name | "Helisoma newberryi (I. Lea, 1858)" |
+| countryCode | chr | Country code | "US" |
+| locality | chr | Locality description | "Clear Lake", text descriptions |
+| stateProvince | chr | State/province | "California" |
+| occurrenceStatus | chr | Occurrence status | "PRESENT" |
+| individualCount | int | Number of individuals | 24, 5, 1... |
+| decimalLatitude | dbl | Decimal latitude | 39.04450, 35.68000... |
+| decimalLongitude | dbl | Decimal longitude | -122.7620, -118.2... |
+| coordinateUncertaintyInMeters | dbl | Coordinate uncertainty | Mostly NA |
+| elevation | dbl | Elevation in meters | 563.00, mostly NA |
+| eventDate | chr | Collection/observation date | "2002-05-24", "2001-07-19" |
+| day | int | Day of observation | 24, 19, 8... |
+| month | int | Month of observation | 5, 7, 3... |
+| year | int | Year of observation | 2002, 2001, 2010... |
+| taxonKey | int | GBIF taxon key | 5189725, 9052348... |
+| speciesKey | int | GBIF species key | 5189725, 1923057... |
+| basisOfRecord | chr | Basis of record | "PRESERVED_SPECIMEN", "HUMAN_OBSERVATION" |
+| institutionCode | chr | Institution code | "FMNH", "Colorado State University" |
+| collectionCode | chr | Collection code | "Invertebrate Zoology" |
+| catalogNumber | chr | Catalog number | "104499", "202040" |
+| identifiedBy | chr | Identifier | "Paul Opler" |
+| license | chr | Data license | "CC0_1_0", "CC_BY_NC" |
+| recordedBy | chr | Collector/observer | "P.Opler", "David Johnson" |
+| typeStatus | chr | Type specimen status | "Holotype", mostly empty |
+| lastInterpreted | dttm | Last processing date | 2025-06-03 19:50:33... |
+| mediaType | chr | Associated media | "StillImage", mostly empty |
+| issue | chr | Data quality issues | Various quality flags |
+
+### Important Notes
+- Large dataset with over 10 million occurrence records
+- Covers multiple taxonomic groups (animals primarily shown)
+- Includes specimen and observation records
+- Has coordinate data for mapping
+- Contains temporal data spanning multiple years
+- Includes data quality indicators and issues
+- Records from various institutions and collections
+- Some fields have high proportion of missing values (NA)
+- Data loaded using `data.table::fread()` due to tab-delimited format despite .csv extension

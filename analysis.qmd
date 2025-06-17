@@ -86,8 +86,8 @@ head(species_summary, 10)
 
 # Save species list for GBIF queries
 cnddb_species_list <- species_summary %>%
-  select(SNAME_clean, original_names, common_names, total_records, recent_records) %>%
-  arrange(SNAME_clean)
+    select(SNAME_clean, original_names, common_names, total_records, recent_records) %>%
+    arrange(SNAME_clean)
 
 # Export to CSV for reference
 write.csv(cnddb_species_list, "data/cnddb_species_list.csv", row.names = FALSE)
@@ -96,30 +96,86 @@ cat("Species list saved to data/cnddb_species_list.csv\n")
 cat("Total species for GBIF queries:", nrow(cnddb_species_list), "\n")
 ```
 
-# GBIF Data
+# GBIF
 
-Load the GBIF occurrence data downloaded via gbif_download.qmd
+## Download the data
+
+See `gbif_download.qmd` for code on requesting the batch download.
+
+## Load the GBIF occurrence data
 
 ```{r load-gbif}
-library(readr)
+library(data.table)
 
 # Check if GBIF data exists
-if(!file.exists("data/gbif_occurrences.csv")) {
-  stop("GBIF data not found. Run gbif_download.qmd first to download the data.")
+if (!file.exists("data/0050088-250525065834625.csv")) {
+    stop("GBIF data not found. Run gbif_download.qmd first to download the data.")
 }
 
-# Load GBIF occurrences
-gbif_data <- read_csv("data/gbif_occurrences.csv")
+# Load GBIF occurrences - using fread() as it handles GBIF tab-delimited CSV files better
+gbif_data <- fread("data/0050088-250525065834625.csv")
 
-# Load the matching information
-gbif_matches <- read_csv("data/gbif_good_matches.csv")
+```
 
-# Basic summary
-cat("GBIF Records Summary:\n")
-cat("Total records:", nrow(gbif_data), "\n")
-cat("Unique species:", length(unique(gbif_data$species)), "\n")
-cat("Date range:", min(gbif_data$eventDate, na.rm = TRUE), "to", max(gbif_data$eventDate, na.rm = TRUE), "\n")
+## Remove birds
+Looking at the records, the observations are overwhelmed by eBird sightings. Because protections around birds are a bit odd (only nesting), I am going to remove them to avoid blowing up the signal from eBird.
 
-# Show data structure
-head(gbif_data)
+
+
+```{r institution-analysis}
+library(ggplot2)
+
+# Count records by institutionCode
+inst_counts <- gbif_data[, .N, by = institutionCode][order(-N)]
+
+# Show top 10 institutions
+head(inst_counts, 10)
+
+# Plot histogram (bar plot) of record counts by institutionCode (top 20 for readability)
+top_n <- 20
+inst_counts_top <- inst_counts[1:top_n]
+
+ggplot(inst_counts_top, aes(x = reorder(institutionCode, -N), y = N)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    labs(
+        title = paste("Top", top_n, "Institutions by Record Count (GBIF)"),
+        x = "Institution Code",
+        y = "Number of Records"
+    ) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r filter-birds}
+# Check bird records before filtering
+cat("Total records before filtering:", nrow(gbif_data), "\n")
+cat("Bird records (class = Aves):", nrow(gbif_data[class == "Aves"]), "\n")
+
+# Filter out birds (class = "Aves")
+gbif_data <- gbif_data[class != "Aves" | is.na(class)]
+
+cat("Total records after removing birds:", nrow(gbif_data), "\n")
+```
+```{r institution-analysis}
+library(ggplot2)
+
+# Count records by institutionCode
+inst_counts <- gbif_data[, .N, by = institutionCode][order(-N)]
+
+# Show top 10 institutions
+head(inst_counts, 10)
+
+# Plot histogram (bar plot) of record counts by institutionCode (top 20 for readability)
+top_n <- 20
+inst_counts_top <- inst_counts[1:top_n]
+
+ggplot(inst_counts_top, aes(x = reorder(institutionCode, -N), y = N)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    labs(
+        title = paste("Top", top_n, "Institutions by Record Count (GBIF)"),
+        x = "Institution Code",
+        y = "Number of Records"
+    ) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
