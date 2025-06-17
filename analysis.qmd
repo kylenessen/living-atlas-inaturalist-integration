@@ -1,0 +1,100 @@
+---
+title: "iNaturalist vs. Traditional Data Sources: A Comparative Analysis of Sensitive Species Records in California"
+author: "Kyle Nessen"
+date: "`r Sys.Date()`"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    fig-width: 10
+    fig-height: 6
+    embed-resources: true
+  pdf:
+    toc: true
+    fig-width: 8
+    fig-height: 5
+execute:
+  warning: false
+  message: false
+  cache: true
+---
+
+
+
+# CNDDB
+## Load data
+
+```{r load-cnddb}
+library(sf)
+
+# Load CNDDB shapefile
+cnddb <- st_read("data/gis_com/cnddb.shp")
+```
+
+## Find unique species names and counts
+
+```{r species-analysis}
+library(dplyr)
+library(lubridate)
+
+# Convert SITEDATE to proper date format
+cnddb_clean <- cnddb %>%
+    mutate(
+        # Handle various date formats in SITEDATE
+        site_date = case_when(
+            nchar(SITEDATE) == 8 & !grepl("X", SITEDATE) ~ ymd(SITEDATE),
+            nchar(SITEDATE) == 8 & grepl("XXXX$", SITEDATE) ~ ymd(paste0(substr(SITEDATE, 1, 4), "0101")),
+            TRUE ~ as.Date(NA)
+        ),
+        # Flag records from last 3 years
+        recent_record = !is.na(site_date) & site_date >= (Sys.Date() - years(3))
+    )
+
+# Species summary with counts and recent records
+species_summary <- cnddb_clean %>%
+    st_drop_geometry() %>%
+    group_by(SNAME, CNAME) %>%
+    summarise(
+        total_records = n(),
+        recent_records = sum(recent_record, na.rm = TRUE),
+        earliest_date = min(site_date, na.rm = TRUE),
+        latest_date = max(site_date, na.rm = TRUE),
+        .groups = "drop"
+    ) %>%
+    arrange(desc(total_records))
+
+# Display summary statistics
+cat("Total unique species:", nrow(species_summary), "\n")
+cat("Species with records in last 3 years:", sum(species_summary$recent_records > 0), "\n")
+cat("Total recent records:", sum(species_summary$recent_records), "\n")
+
+# Show top species by record count
+head(species_summary, 10)
+
+# Save species list for GBIF queries
+cnddb_species_list <- species_summary %>%
+  select(SNAME, CNAME, total_records, recent_records) %>%
+  arrange(SNAME)
+
+# Export to CSV for reference
+write.csv(cnddb_species_list, "data/cnddb_species_list.csv", row.names = FALSE)
+
+cat("Species list saved to data/cnddb_species_list.csv\n")
+cat("Total species for GBIF queries:", nrow(cnddb_species_list), "\n")
+```
+
+# GBIF
+Query all data for the list of sensitive species
+
+```{r gbif-setup}
+library(rgbif)
+
+# Get the species list
+species_for_gbif <- cnddb_species_list$SNAME
+
+cat("Preparing to query GBIF for", length(species_for_gbif), "species\n")
+cat("First 10 species to query:\n")
+head(species_for_gbif, 10)
+```
