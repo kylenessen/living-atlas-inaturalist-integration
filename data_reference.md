@@ -38,3 +38,42 @@
 - Has temporal data (observation dates)
 - Contains threat assessment information
 - Spatial data in projected coordinate system (likely UTM or State Plane)
+
+## GBIF Name Matching Results
+
+**Source**: `gbif_download.qmd` - GBIF backbone taxonomy matching
+**Records**: 3,174 matches
+**Columns**: 26
+
+### Key Fields
+
+| Field | Type | Description | Sample Values |
+|-------|------|-------------|---------------|
+| usageKey | int | GBIF usage key | 2685524, 8613939... |
+| scientificName | chr | Full scientific name with authority | "Abies amabilis Douglas ex J.Forbes" |
+| canonicalName | chr | Canonical scientific name | "Abies amabilis" |
+| rank | chr | Taxonomic rank | "SPECIES" |
+| status | chr | Taxonomic status | "ACCEPTED", "SYNONYM" |
+| confidence | int | Match confidence score | 96-99 |
+| matchType | chr | Type of match | "EXACT", "FUZZY" |
+| kingdom | chr | Kingdom | "Plantae" |
+| phylum | chr | Phylum | "Tracheophyta" |
+| order | chr | Order | "Pinales" |
+| family | chr | Family | "Pinaceae" |
+| genus | chr | Genus | "Abies" |
+| species | chr | Species binomial | "Abies amabilis" |
+| synonym | lgl | Is this name a synonym | FALSE, TRUE |
+| acceptedUsageKey | int | Key for accepted name if synonym | NA, 2685524... |
+| is_alternative | lgl | Is alternative suggestion | FALSE, TRUE |
+| verbatim_name | chr | Original input name | "Abies amabilis" |
+| verbatim_index | dbl | Index of original name | 1, 2, 3... |
+
+### Important Notes
+- Results from matching species names to GBIF backbone taxonomy
+- Uses strict matching (no fuzzy matches)
+- Contains both accepted names and synonyms
+- High confidence matches (96-99%)
+- Primarily EXACT match types
+- Includes taxonomic hierarchy (kingdom through species)
+- Links synonyms to accepted names via acceptedUsageKey
+- Filtered results saved separately as "good matches" (exact, non-alternative, valid taxon keys)

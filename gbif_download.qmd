@@ -55,38 +55,14 @@ good_matches <- gbif_matches %>%
   filter(
     matchType == "EXACT",
     is_alternative == FALSE,
-    !is.na(taxonKey),
-    !is.na(species)
+    status == "ACCEPTED",
+    rank %in% c("SPECIES", "VARIETY", "SUBSPECIES")
   )
 
-# Summary of matching results
-cat("\nMatching Results:\n")
-cat("Total species submitted:", length(species_for_gbif), "\n")
-cat("Total matches returned:", nrow(gbif_matches), "\n") 
-cat("High quality exact matches:", nrow(good_matches), "\n")
-cat("Species with no good match:", length(species_for_gbif) - nrow(good_matches), "\n")
-
-# Show match quality breakdown
-match_summary <- gbif_matches %>%
-  count(matchType, is_alternative, name = "count") %>%
-  arrange(desc(count))
-
-print("Match type breakdown:")
-print(match_summary)
-
-# Species that didn't get exact matches
-no_exact_match <- species_for_gbif[!species_for_gbif %in% good_matches$verbatim_name]
-if(length(no_exact_match) > 0) {
-  cat("\nSpecies without exact matches (first 10):\n")
-  print(head(no_exact_match, 10))
-}
-
-# Save matching results
-write_csv(gbif_matches, "data/gbif_name_matches.csv")
 write_csv(good_matches, "data/gbif_good_matches.csv")
 
 # Prepare taxon keys for download
-taxon_keys <- good_matches$taxonKey
+taxon_keys <- good_matches$usageKey
 cat("\nTaxon keys ready for download:", length(taxon_keys), "species\n")
 ```
 
