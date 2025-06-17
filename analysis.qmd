@@ -227,4 +227,223 @@ cat("Total iNaturalist records:", sum(gbif_species_summary$inaturalist_records),
 head(gbif_species_summary, 15)
 ```
 
-## Summary stats
+# Combined Analysis: iNaturalist vs. All Others
+
+## Combine CNDDB and GBIF Data
+
+```{r combine-datasets}
+# Load the GBIF good matches to get usageKey mappings
+if (!file.exists("data/gbif_good_matches.csv")) {
+    stop("GBIF good matches file not found. This file should contain usageKey mappings.")
+}
+
+gbif_matches <- fread("data/gbif_good_matches.csv")
+
+# Create a mapping from species names to usageKey
+species_to_usagekey <- gbif_matches[, .(species = verbatim_name, usageKey)]
+
+# Combine CNDDB data with GBIF data using usageKey
+# First, get CNDDB species with their usageKeys
+cnddb_with_usagekey <- merge(
+    cnddb_species_list, 
+    species_to_usagekey, 
+    by.x = "SNAME_clean", 
+    by.y = "species", 
+    all.x = TRUE
+)
+
+# Convert to data.table for easier manipulation
+cnddb_with_usagekey <- as.data.table(cnddb_with_usagekey)
+
+# For species that matched, get their GBIF data
+matched_species <- cnddb_with_usagekey[!is.na(usageKey)]
+cat("CNDDB species with GBIF matches:", nrow(matched_species), "out of", nrow(cnddb_species_list), "\n")
+
+# Create combined summary for matched species
+if (nrow(matched_species) > 0) {
+    # Get GBIF data for matched species
+    gbif_matched <- merge(
+        gbif_species_summary,
+        matched_species[, .(species = SNAME_clean, usageKey, cnddb_records = total_records, cnddb_recent = recent_records)],
+        by.x = "usageKey",
+        by.y = "usageKey",
+        all.y = TRUE
+    )
+    
+    # Replace NA values with 0 for species not found in GBIF
+    gbif_matched[is.na(total_records), total_records := 0]
+    gbif_matched[is.na(inaturalist_records), inaturalist_records := 0]
+    gbif_matched[is.na(other_institution_records), other_institution_records := 0]
+    gbif_matched[is.na(recent_inaturalist_records), recent_inaturalist_records := 0]
+    gbif_matched[is.na(recent_other_records), recent_other_records := 0]
+    
+    # Create the combined summary
+    combined_summary <- gbif_matched[, .(
+        species_name = species.y,
+        usageKey = usageKey,
+        # CNDDB (sensitive species database)
+        cnddb_records = cnddb_records,
+        cnddb_recent_records = cnddb_recent,
+        # iNaturalist 
+        inaturalist_records = inaturalist_records,
+        inaturalist_recent_records = recent_inaturalist_records,
+        # All others (GBIF other institutions + CNDDB)
+        other_gbif_records = other_institution_records,
+        other_gbif_recent_records = recent_other_records,
+        # Combined "all others" category
+        all_others_records = cnddb_records + other_institution_records,
+        all_others_recent_records = cnddb_recent + recent_other_records,
+        # Total records
+        total_all_records = cnddb_records + inaturalist_records + other_institution_records
+    )][order(-total_all_records)]
+    
+    cat("Combined analysis ready for", nrow(combined_summary), "species\n")
+    head(combined_summary, 10)
+} else {
+    cat("No species matches found between CNDDB and GBIF\n")
+}
+```
+
+## Summary Statistics Comparison
+
+```{r summary-comparison}
+if (exists("combined_summary") && nrow(combined_summary) > 0) {
+    # Calculate aggregate statistics
+    total_species <- nrow(combined_summary)
+    
+    # Total records
+    total_cnddb <- sum(combined_summary$cnddb_records)
+    total_inaturalist <- sum(combined_summary$inaturalist_records)
+    total_other_gbif <- sum(combined_summary$other_gbif_records)
+    total_all_others <- sum(combined_summary$all_others_records)
+    
+    # Recent records (last 3 years)
+    recent_cnddb <- sum(combined_summary$cnddb_recent_records)
+    recent_inaturalist <- sum(combined_summary$inaturalist_recent_records)
+    recent_other_gbif <- sum(combined_summary$other_gbif_recent_records)
+    recent_all_others <- sum(combined_summary$all_others_recent_records)
+    
+    # Species with any records
+    species_with_cnddb <- sum(combined_summary$cnddb_records > 0)
+    species_with_inaturalist <- sum(combined_summary$inaturalist_records > 0)
+    species_with_all_others <- sum(combined_summary$all_others_records > 0)
+    
+    # Species with recent records
+    species_with_recent_cnddb <- sum(combined_summary$cnddb_recent_records > 0)
+    species_with_recent_inaturalist <- sum(combined_summary$inaturalist_recent_records > 0)
+    species_with_recent_all_others <- sum(combined_summary$all_others_recent_records > 0)
+    
+    # Print summary
+    cat("=== SUMMARY STATISTICS ===\n")
+    cat("Total species analyzed:", total_species, "\n\n")
+    
+    cat("TOTAL RECORDS:\n")
+    cat("  CNDDB (sensitive species):", formatC(total_cnddb, format = "d", big.mark = ","), "\n")
+    cat("  iNaturalist:", formatC(total_inaturalist, format = "d", big.mark = ","), "\n")
+    cat("  Other GBIF institutions:", formatC(total_other_gbif, format = "d", big.mark = ","), "\n")
+    cat("  All Others (CNDDB + Other GBIF):", formatC(total_all_others, format = "d", big.mark = ","), "\n\n")
+    
+    cat("RECENT RECORDS (last 3 years):\n")
+    cat("  CNDDB:", formatC(recent_cnddb, format = "d", big.mark = ","), "\n")
+    cat("  iNaturalist:", formatC(recent_inaturalist, format = "d", big.mark = ","), "\n")
+    cat("  Other GBIF institutions:", formatC(recent_other_gbif, format = "d", big.mark = ","), "\n")
+    cat("  All Others (CNDDB + Other GBIF):", formatC(recent_all_others, format = "d", big.mark = ","), "\n\n")
+    
+    cat("SPECIES COVERAGE:\n")
+    cat("  Species with CNDDB records:", species_with_cnddb, "out of", total_species, 
+        sprintf("(%.1f%%)", 100 * species_with_cnddb / total_species), "\n")
+    cat("  Species with iNaturalist records:", species_with_inaturalist, "out of", total_species,
+        sprintf("(%.1f%%)", 100 * species_with_inaturalist / total_species), "\n")
+    cat("  Species with All Others records:", species_with_all_others, "out of", total_species,
+        sprintf("(%.1f%%)", 100 * species_with_all_others / total_species), "\n\n")
+    
+    cat("RECENT SPECIES COVERAGE:\n")
+    cat("  Species with recent CNDDB records:", species_with_recent_cnddb, "out of", total_species,
+        sprintf("(%.1f%%)", 100 * species_with_recent_cnddb / total_species), "\n")
+    cat("  Species with recent iNaturalist records:", species_with_recent_inaturalist, "out of", total_species,
+        sprintf("(%.1f%%)", 100 * species_with_recent_inaturalist / total_species), "\n")
+    cat("  Species with recent All Others records:", species_with_recent_all_others, "out of", total_species,
+        sprintf("(%.1f%%)", 100 * species_with_recent_all_others / total_species), "\n")
+}
+```
+
+## Visualization: iNaturalist vs. All Others
+
+```{r comparison-visualization}
+if (exists("combined_summary") && nrow(combined_summary) > 0) {
+    library(ggplot2)
+    library(scales)
+    
+    # Create summary data for visualization
+    viz_data <- data.frame(
+        Category = c("iNaturalist", "All Others (CNDDB + Other GBIF)"),
+        Total_Records = c(total_inaturalist, total_all_others),
+        Recent_Records = c(recent_inaturalist, recent_all_others),
+        Species_Coverage = c(species_with_inaturalist, species_with_all_others),
+        Recent_Species_Coverage = c(species_with_recent_inaturalist, species_with_recent_all_others)
+    )
+    
+    # Plot 1: Total Records Comparison
+    p1 <- ggplot(viz_data, aes(x = Category, y = Total_Records, fill = Category)) +
+        geom_bar(stat = "identity", alpha = 0.8) +
+        scale_fill_manual(values = c("iNaturalist" = "#74c476", "All Others (CNDDB + Other GBIF)" = "#2b8cbe")) +
+        scale_y_continuous(labels = comma_format()) +
+        labs(
+            title = "Total Records: iNaturalist vs. All Others",
+            subtitle = "Comparison of sensitive species occurrence records",
+            x = "", 
+            y = "Number of Records"
+        ) +
+        theme_minimal() +
+        theme(
+            legend.position = "none",
+            axis.text.x = element_text(angle = 45, hjust = 1),
+            plot.title = element_text(hjust = 0.5),
+            plot.subtitle = element_text(hjust = 0.5)
+        )
+    
+    print(p1)
+    
+    # Plot 2: Recent Records Comparison
+    p2 <- ggplot(viz_data, aes(x = Category, y = Recent_Records, fill = Category)) +
+        geom_bar(stat = "identity", alpha = 0.8) +
+        scale_fill_manual(values = c("iNaturalist" = "#74c476", "All Others (CNDDB + Other GBIF)" = "#2b8cbe")) +
+        scale_y_continuous(labels = comma_format()) +
+        labs(
+            title = "Recent Records (Last 3 Years): iNaturalist vs. All Others",
+            subtitle = "Comparison of recent sensitive species occurrence records",
+            x = "", 
+            y = "Number of Records"
+        ) +
+        theme_minimal() +
+        theme(
+            legend.position = "none",
+            axis.text.x = element_text(angle = 45, hjust = 1),
+            plot.title = element_text(hjust = 0.5),
+            plot.subtitle = element_text(hjust = 0.5)
+        )
+    
+    print(p2)
+    
+    # Plot 3: Species Coverage Comparison
+    p3 <- ggplot(viz_data, aes(x = Category, y = Species_Coverage, fill = Category)) +
+        geom_bar(stat = "identity", alpha = 0.8) +
+        scale_fill_manual(values = c("iNaturalist" = "#74c476", "All Others (CNDDB + Other GBIF)" = "#2b8cbe")) +
+        labs(
+            title = "Species Coverage: iNaturalist vs. All Others",
+            subtitle = paste("Number of species with records out of", total_species, "total species"),
+            x = "", 
+            y = "Number of Species with Records"
+        ) +
+        theme_minimal() +
+        theme(
+            legend.position = "none",
+            axis.text.x = element_text(angle = 45, hjust = 1),
+            plot.title = element_text(hjust = 0.5),
+            plot.subtitle = element_text(hjust = 0.5)
+        )
+    
+    print(p3)
+}
+```
+
