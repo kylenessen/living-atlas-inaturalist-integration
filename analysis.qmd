@@ -385,62 +385,7 @@ if (exists("annual_totals")) {
 }
 ```
 
-# Summary Comparisons
-
-## Total Records Comparison (All Time)
-
-```{r total-comparison}
-if (exists("annual_totals")) {
-    library(ggplot2)
-    library(scales)
-    
-    # Calculate total records across all years
-    total_inaturalist <- sum(annual_totals$inaturalist_annual, na.rm = TRUE)
-    total_all_others <- sum(annual_totals$all_others_annual, na.rm = TRUE)
-    
-    # Create data frame for plotting
-    total_comparison_data <- data.frame(
-        Source = c("iNaturalist", "All Others\n(CNDDB + Other GBIF)"),
-        Records = c(total_inaturalist, total_all_others),
-        Percentage = c(
-            round(100 * total_inaturalist / (total_inaturalist + total_all_others), 1),
-            round(100 * total_all_others / (total_inaturalist + total_all_others), 1)
-        )
-    )
-    
-    # Create bar chart
-    p_total <- ggplot(total_comparison_data, aes(x = Source, y = Records, fill = Source)) +
-        geom_col(alpha = 0.8, width = 0.6) +
-        geom_text(aes(label = paste0(comma(Records), "\n(", Percentage, "%)")), 
-                  vjust = -0.2, size = 4, fontface = "bold") +
-        scale_fill_manual(values = c("iNaturalist" = "#74c476", "All Others\n(CNDDB + Other GBIF)" = "#2b8cbe")) +
-        scale_y_continuous(labels = comma_format(), expand = expansion(mult = c(0, 0.15))) +
-        labs(
-            title = "Total Records Comparison: iNaturalist vs All Others",
-            subtitle = "Sensitive Species Observations (All Years)",
-            x = "Data Source",
-            y = "Number of Records"
-        ) +
-        theme_minimal() +
-        theme(
-            legend.position = "none",
-            plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
-            plot.subtitle = element_text(hjust = 0.5, size = 12),
-            axis.text.x = element_text(size = 11),
-            axis.title = element_text(size = 12)
-        )
-    
-    print(p_total)
-    
-    # Print summary stats
-    cat("=== TOTAL RECORDS COMPARISON (ALL TIME) ===\n")
-    cat("iNaturalist:", format(total_inaturalist, big.mark = ","), "records\n")
-    cat("All Others (CNDDB + Other GBIF):", format(total_all_others, big.mark = ","), "records\n")
-    cat("Total:", format(total_inaturalist + total_all_others, big.mark = ","), "records\n")
-}
-```
-
-## Last 3 Years Comparison
+# Last 3 Years Comparison
 
 ```{r recent-comparison}
 if (exists("annual_totals")) {
