@@ -27,7 +27,7 @@
 "Acmispon haydonii","Acmispon haydonii","pygmy lotus",32,0
 "Acmispon prostratus","Acmispon prostratus","Nuttall's acmispon",38,0
 "Acmispon rubriflorus","Acmispon rubriflorus","red-flowered bird's-foot trefoil",8,0
-"Actinemys marmorata","Actinemys marmorata","northwestern pond turtle",1160,61
+"Actinemys marmorata","Actinemys marmorata","northwestern pond turtle",1160,60
 "Actinemys pallida","Actinemys pallida","southwestern pond turtle",481,3
 "Active Desert Dunes","Active Desert Dunes","Active Desert Dunes",4,0
 "Adela oplerella","Adela oplerella","Opler's longhorn moth",14,0
@@ -87,7 +87,7 @@
 "Ammopelmatus kelsoensis","Ammopelmatus kelsoensis","Kelso jerusalem cricket",1,0
 "Ammopelmatus muwu","Ammopelmatus muwu","Point Conception jerusalem cricket",1,0
 "Ammospermophilus nelsoni","Ammospermophilus nelsoni","Nelson's (=San Joaquin) antelope squirrel",287,0
-"Amorpha californica napensis","Amorpha californica var. napensis","Napa false indigo",123,15
+"Amorpha californica napensis","Amorpha californica var. napensis","Napa false indigo",123,13
 "Amsinckia grandiflora","Amsinckia grandiflora","large-flowered fiddleneck",9,0
 "Amsinckia lunaris","Amsinckia lunaris","bent-flowered fiddleneck",93,0
 "Anaxyrus californicus","Anaxyrus californicus","arroyo toad",139,0
@@ -292,7 +292,7 @@
 "Astragalus umbraticus","Astragalus umbraticus","Bald Mountain milk-vetch",36,0
 "Astragalus webberi","Astragalus webberi","Webber's milk-vetch",12,0
 "Astrolepis cochisensis cochisensis","Astrolepis cochisensis ssp. cochisensis","scaly cloak fern",20,0
-"Athene cunicularia","Athene cunicularia","burrowing owl",2133,32
+"Athene cunicularia","Athene cunicularia","burrowing owl",2133,31
 "Atractelmis wawona","Atractelmis wawona","Wawona riffle beetle",80,0
 "Atriplex argentea hillmanii","Atriplex argentea var. hillmanii","Hillman's silverscale",6,0
 "Atriplex argentea longitrichoma","Atriplex argentea var. longitrichoma","Pahrump orache",8,0
@@ -389,7 +389,7 @@
 "Bombus franklini","Bombus franklini","Franklin's bumble bee",11,0
 "Bombus morrisoni","Bombus morrisoni","Morrison bumble bee",86,0
 "Bombus occidentalis","Bombus occidentalis","western bumble bee",306,0
-"Bombus pensylvanicus","Bombus pensylvanicus","American bumble bee",810,301
+"Bombus pensylvanicus","Bombus pensylvanicus","American bumble bee",810,300
 "Bombus suckleyi","Bombus suckleyi","Suckley's cuckoo bumble bee",4,0
 "Bonasa umbellus","Bonasa umbellus","ruffed grouse",5,0
 "Botrychium ascendens","Botrychium ascendens","upswept moonwort",53,0
@@ -1743,7 +1743,7 @@
 "Malacothamnus discombobulatus","Malacothamnus discombobulatus","discombobulating bushmallow",24,3
 "Malacothamnus eastwoodiae","Malacothamnus eastwoodiae","Alice's lovely bushmallow",5,0
 "Malacothamnus fasciculatus nesioticus","Malacothamnus fasciculatus var. nesioticus","Santa Cruz Island bushmallow",8,0
-"Malacothamnus hallii","Malacothamnus hallii","Hall's bushmallow",71,18
+"Malacothamnus hallii","Malacothamnus hallii","Hall's bushmallow",71,17
 "Malacothamnus involucratus","Malacothamnus involucratus","Carmel Valley bushmallow",25,0
 "Malacothamnus jonesii gracilis","Malacothamnus jonesii var. gracilis","slender bushmallow",5,0
 "Malacothamnus lucianus","Malacothamnus lucianus","Arroyo Seco bushmallow",9,0
@@ -2352,7 +2352,7 @@
 "Ravenella sharsmithiae","Ravenella sharsmithiae","Sharsmith's harebell",7,0
 "Reithrodontomys megalotis distichlis","Reithrodontomys megalotis distichlis","Salinas harvest mouse",7,0
 "Reithrodontomys megalotis santacruzae","Reithrodontomys megalotis santacruzae","Santa Cruz harvest mouse",1,0
-"Reithrodontomys raviventris","Reithrodontomys raviventris","salt-marsh harvest mouse",151,4
+"Reithrodontomys raviventris","Reithrodontomys raviventris","salt-marsh harvest mouse",151,2
 "Rhamnus alnifolia","Rhamnus alnifolia","alder buckthorn",27,0
 "Rhaphiomidas terminatus abdominalis","Rhaphiomidas terminatus abdominalis","Delhi Sands flower-loving fly",36,0
 "Rhaphiomidas terminatus terminatus","Rhaphiomidas terminatus terminatus","El Segundo flower-loving fly",1,0
@@ -2685,7 +2685,7 @@
 "Texosporium sancti-jacobi","Texosporium sancti-jacobi","woven-spored lichen",19,0
 "Thaleichthys pacificus","Thaleichthys pacificus","eulachon",10,0
 "Thamnolia vermicularis","Thamnolia vermicularis","whiteworm lichen",1,0
-"Thamnophis gigas","Thamnophis gigas","giant gartersnake",381,5
+"Thamnophis gigas","Thamnophis gigas","giant gartersnake",381,4
 "Thamnophis hammondii","Thamnophis hammondii","two-striped gartersnake",184,0
 "Thamnophis sirtalis","Thamnophis sirtalis pop. 1","south coast gartersnake",48,4
 "Thamnophis sirtalis tetrataenia","Thamnophis sirtalis tetrataenia","San Francisco gartersnake",66,0
