@@ -6,6 +6,9 @@ format:
     html:
         embed-resources: true
 editor: visual
+bibliography: references.bib
+nocite: |
+  @https://doi.org/10.15468/dl.r8uqkq, @cnddb2025
 ---
 
 ## Abstract
@@ -26,9 +29,9 @@ As policy, iNaturalist obscures the location of any rare species. This means the
 
 By my estimates, 96% of recent occurrence records for sensitive species are locked away, invisible to the very professionals who need them most.
 
-![](figures/timeseries_cumulative_growth.png)
+![TCumulative growth of sensitive species observations over time, comparing iNaturalist versus all other sources (CNDDB + Other GBIF Institutions). Data includes all records for approximately 2,300 species tracked by CNDDB. Both GBIF and CNDDB were queried at the time of writing. Note: The apparent leveling off of iNaturalist records in 2025 reflects incomplete year-to-date data; the steep upward trend is expected to continue through the full year.](figures/timeseries_cumulative_growth.png)
 
-![Caption](figures/recent_comparison_bar_chart.png)
+![Comparison of sensitive species observations recorded in the last 3 years (2022-2025), showing iNaturalist versus all other sources (CNDDB + Other GBIF Institutions). Data represents the same approximately 2,300 species tracked by CNDDB, filtered for records created within this recent period.](figures/recent_comparison_bar_chart.png)
 
 ## A Solution
 
@@ -77,3 +80,5 @@ This partnership creates value for every stakeholder involved:
 -   Ensures this vital public good remains viable. The equivalent of Wikipedia for biodiversity
 
 -   Maintains public engagement with nature while supporting professional conservation efforts
+
+## References
