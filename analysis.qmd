@@ -382,10 +382,11 @@ if (exists("annual_totals")) {
         )
 
     print(p_timeseries)
-    
+
     # Save plot as PNG
-    ggsave("figures/timeseries_cumulative_growth.png", p_timeseries, 
-           width = 10, height = 6, dpi = 300, bg = "white")
+    ggsave("figures/timeseries_cumulative_growth.png", p_timeseries,
+        width = 10, height = 6, dpi = 300, bg = "white"
+    )
 }
 ```
 
@@ -414,10 +415,10 @@ if (exists("annual_totals")) {
         )
     )
 
-    # Create bar chart
+    # Create bar chart (show only percentage in label)
     p_recent <- ggplot(recent_comparison_data, aes(x = Source, y = Records, fill = Source)) +
         geom_col(alpha = 0.8, width = 0.6) +
-        geom_text(aes(label = paste0(comma(Records), "\n(", Percentage, "%)")),
+        geom_text(aes(label = paste0(Percentage, "%")),
             vjust = -0.2, size = 4, fontface = "bold"
         ) +
         scale_fill_manual(values = c("iNaturalist" = "#74c476", "All Others\n(CNDDB + Other GBIF)" = "#2b8cbe")) +
@@ -438,10 +439,11 @@ if (exists("annual_totals")) {
         )
 
     print(p_recent)
-    
+
     # Save plot as PNG
-    ggsave("figures/recent_comparison_bar_chart.png", p_recent, 
-           width = 8, height = 6, dpi = 300, bg = "white")
+    ggsave("figures/recent_comparison_bar_chart.png", p_recent,
+        width = 8, height = 6, dpi = 300, bg = "white"
+    )
 
     # Print summary stats
     cat("=== LAST 3 YEARS COMPARISON (", current_year - 3, "-", current_year, ") ===\n")
