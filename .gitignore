@@ -7,3 +7,4 @@ data/gbif_*.zip
 gbif_download.qmd
 data/0050088-250525065834625.csv
 .Rhistory
+living-atlas-inaturalist-integration.Rproj
