@@ -12,7 +12,7 @@ nocite: |
   @https://doi.org/10.15468/dl.r8uqkq, @cnddb2025
 ---
 
-## Abstract
+## Summary
 
 Environmental reviews rely on current and abundant geospatial records of sensitive species. iNaturalist is the largest repository of such information, but it is hidden from users due to policy decisions. I propose that Esri and iNaturalist partner to make this data available to Esri users. In this exchange, Esri will receive exclusive access to a valuable data product for the Living Atlas, and iNaturalist will receive financial support to continue its mission.
 
