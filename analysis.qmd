@@ -382,6 +382,11 @@ if (exists("annual_totals")) {
         )
 
     print(p_timeseries)
+
+    # Save plot as PNG
+    ggsave("figures/timeseries_cumulative_growth.png", p_timeseries,
+        width = 10, height = 6, dpi = 300, bg = "white"
+    )
 }
 ```
 
@@ -391,15 +396,15 @@ if (exists("annual_totals")) {
 if (exists("annual_totals")) {
     library(ggplot2)
     library(scales)
-    
+
     # Calculate records for last 3 years
     current_year <- year(Sys.Date())
     last_3_years <- annual_totals %>%
         filter(year >= (current_year - 3))
-    
+
     recent_inaturalist <- sum(last_3_years$inaturalist_annual, na.rm = TRUE)
     recent_all_others <- sum(last_3_years$all_others_annual, na.rm = TRUE)
-    
+
     # Create data frame for plotting
     recent_comparison_data <- data.frame(
         Source = c("iNaturalist", "All Others\n(CNDDB + Other GBIF)"),
@@ -409,12 +414,13 @@ if (exists("annual_totals")) {
             round(100 * recent_all_others / (recent_inaturalist + recent_all_others), 1)
         )
     )
-    
-    # Create bar chart
+
+    # Create bar chart (show only percentage in label)
     p_recent <- ggplot(recent_comparison_data, aes(x = Source, y = Records, fill = Source)) +
         geom_col(alpha = 0.8, width = 0.6) +
-        geom_text(aes(label = paste0(comma(Records), "\n(", Percentage, "%)")), 
-                  vjust = -0.2, size = 4, fontface = "bold") +
+        geom_text(aes(label = paste0(Percentage, "%")),
+            vjust = -0.2, size = 4, fontface = "bold"
+        ) +
         scale_fill_manual(values = c("iNaturalist" = "#74c476", "All Others\n(CNDDB + Other GBIF)" = "#2b8cbe")) +
         scale_y_continuous(labels = comma_format(), expand = expansion(mult = c(0, 0.15))) +
         labs(
@@ -431,9 +437,14 @@ if (exists("annual_totals")) {
             axis.text.x = element_text(size = 11),
             axis.title = element_text(size = 12)
         )
-    
+
     print(p_recent)
-    
+
+    # Save plot as PNG
+    ggsave("figures/recent_comparison_bar_chart.png", p_recent,
+        width = 8, height = 6, dpi = 300, bg = "white"
+    )
+
     # Print summary stats
     cat("=== LAST 3 YEARS COMPARISON (", current_year - 3, "-", current_year, ") ===\n")
     cat("iNaturalist:", format(recent_inaturalist, big.mark = ","), "records\n")
