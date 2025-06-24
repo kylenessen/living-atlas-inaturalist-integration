@@ -79,7 +79,7 @@
 "Ambrosia monogyra","Ambrosia monogyra","singlewhorl burrobrush",30,0
 "Ambrosia pumila","Ambrosia pumila","San Diego ambrosia",61,0
 "Ambrysus funebris","Ambrysus funebris","Nevares Spring naucorid bug",2,0
-"Ambystoma californiense","Ambystoma californiense pop. 1; Ambystoma californiense pop. 3; Ambystoma californiense pop. 2","California tiger salamander - central California DPS; California tiger salamander - Sonoma County DPS; California tiger salamander - Santa Barbara County DPS",1444,29
+"Ambystoma californiense","Ambystoma californiense pop. 1; Ambystoma californiense pop. 3; Ambystoma californiense pop. 2","California tiger salamander - central California DPS; California tiger salamander - Sonoma County DPS; California tiger salamander - Santa Barbara County DPS",1444,28
 "Ambystoma macrodactylum croceum","Ambystoma macrodactylum croceum","Santa Cruz long-toed salamander",29,3
 "Ambystoma macrodactylum sigillatum","Ambystoma macrodactylum sigillatum","southern long-toed salamander",611,0
 "Ammodramus savannarum","Ammodramus savannarum","grasshopper sparrow",27,0
@@ -292,7 +292,7 @@
 "Astragalus umbraticus","Astragalus umbraticus","Bald Mountain milk-vetch",36,0
 "Astragalus webberi","Astragalus webberi","Webber's milk-vetch",12,0
 "Astrolepis cochisensis cochisensis","Astrolepis cochisensis ssp. cochisensis","scaly cloak fern",20,0
-"Athene cunicularia","Athene cunicularia","burrowing owl",2133,31
+"Athene cunicularia","Athene cunicularia","burrowing owl",2133,30
 "Atractelmis wawona","Atractelmis wawona","Wawona riffle beetle",80,0
 "Atriplex argentea hillmanii","Atriplex argentea var. hillmanii","Hillman's silverscale",6,0
 "Atriplex argentea longitrichoma","Atriplex argentea var. longitrichoma","Pahrump orache",8,0
@@ -577,7 +577,7 @@
 "Castilleja mendocinensis","Castilleja mendocinensis","Mendocino Coast paintbrush",52,0
 "Castilleja mollis","Castilleja mollis","soft-leaved paintbrush",7,0
 "Castilleja rubicundula rubicundula","Castilleja rubicundula var. rubicundula","pink creamsacs",42,0
-"Castilleja schizotricha","Castilleja schizotricha","split-hair paintbrush",30,5
+"Castilleja schizotricha","Castilleja schizotricha","split-hair paintbrush",30,4
 "Castilleja uliginosa","Castilleja uliginosa","Pitkin Marsh paintbrush",2,0
 "Catabrosa aquatica","Catabrosa aquatica","water whorlgrass",1,0
 "Catostomus fumeiventris","Catostomus fumeiventris","Owens sucker",35,0
@@ -656,7 +656,7 @@
 "Chloropyron maritimum maritimum","Chloropyron maritimum ssp. maritimum","salt marsh bird's-beak",26,0
 "Chloropyron maritimum palustre","Chloropyron maritimum ssp. palustre","Point Reyes salty bird's-beak",80,0
 "Chloropyron molle hispidum","Chloropyron molle ssp. hispidum","hispid salty bird's-beak",35,0
-"Chloropyron molle molle","Chloropyron molle ssp. molle","soft salty bird's-beak",28,6
+"Chloropyron molle molle","Chloropyron molle ssp. molle","soft salty bird's-beak",28,5
 "Chloropyron palmatum","Chloropyron palmatum","palmate-bracted bird's-beak",25,1
 "Chloropyron tecopense","Chloropyron tecopense","Tecopa bird's-beak",6,0
 "Chlosyne leanira elegans","Chlosyne leanira elegans","Oso Flaco patch butterfly",1,0
@@ -992,7 +992,7 @@
 "Empetrum nigrum","Empetrum nigrum","black crowberry",4,0
 "Empidonax traillii","Empidonax traillii","willow flycatcher",90,0
 "Empidonax traillii brewsteri","Empidonax traillii brewsteri","little willow flycatcher",2,0
-"Empidonax traillii extimus","Empidonax traillii extimus","southwestern willow flycatcher",75,8
+"Empidonax traillii extimus","Empidonax traillii extimus","southwestern willow flycatcher",75,7
 "Enceliopsis covillei","Enceliopsis covillei","Panamint daisy",11,0
 "Enceliopsis nudicaulis corrugata","Enceliopsis nudicaulis var. corrugata","Ash Meadows daisy",2,0
 "Engellaria obtusa","Engellaria obtusa","obtuse starwort",31,0
@@ -2345,7 +2345,7 @@
 "Rana draytonii","Rana draytonii","California red-legged frog",1796,40
 "Rana muscosa","Rana muscosa","southern mountain yellow-legged frog",213,20
 "Rana pretiosa","Rana pretiosa","Oregon spotted frog",4,0
-"Rana sierrae","Rana sierrae","Sierra Nevada yellow-legged frog",771,79
+"Rana sierrae","Rana sierrae","Sierra Nevada yellow-legged frog",771,78
 "Ranunculus hydrocharoides","Ranunculus hydrocharoides","frog's-bit buttercup",4,0
 "Ranunculus macounii","Ranunculus macounii","Macoun's buttercup",12,0
 "Ravenella exigua","Ravenella exigua","chaparral harebell",50,0
@@ -2584,7 +2584,7 @@
 "Spizella breweri","Spizella breweri","Brewer's sparrow",1,0
 "Stabilized Interior Dunes","Stabilized Interior Dunes","Stabilized Interior Dunes",2,0
 "Stabilized and Partially Stabilized Desert Dunes","Stabilized and Partially Stabilized Desert Dunes","Stabilized and Partially Stabilized Desert Dunes",3,0
-"Stachys pilosa","Stachys pilosa","hairy marsh hedge-nettle",33,2
+"Stachys pilosa","Stachys pilosa","hairy marsh hedge-nettle",33,1
 "Stanleya viridiflora","Stanleya viridiflora","green-flowered prince's plume",10,0
 "Stebbinsoseris decipiens","Stebbinsoseris decipiens","Santa Cruz microseris",19,0
 "Stellaria longifolia","Stellaria longifolia","long-leaved starwort",18,0
@@ -2672,7 +2672,7 @@
 "Taricha rivularis","Taricha rivularis","red-bellied newt",136,1
 "Taricha torosa","Taricha torosa","Coast Range newt",88,0
 "Tauschia howellii","Tauschia howellii","Howell's tauschia",6,0
-"Taxidea taxus","Taxidea taxus","American badger",648,9
+"Taxidea taxus","Taxidea taxus","American badger",648,8
 "Tetracoccus dioicus","Tetracoccus dioicus","Parry's tetracoccus",49,0
 "Tetracoccus ilicifolius","Tetracoccus ilicifolius","holly-leaved tetracoccus",7,0
 "Tetradymia tetrameres","Tetradymia tetrameres","dune horsebrush",10,0

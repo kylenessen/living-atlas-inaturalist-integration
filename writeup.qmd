@@ -24,7 +24,9 @@ As policy, iNaturalist obscures the location of any rare species. This means the
 
 By my estimates, 96% of recent occurrence records for sensitive species are locked away, invisible to the very professionals who need them most.
 
+![Here's my caption](figures/timeseries_cumulative_growth.png){fig-alt="Alt Text"}
 
+![Caption](figures/recent_comparison_bar_chart.png)
 
 ## A Solution
 
