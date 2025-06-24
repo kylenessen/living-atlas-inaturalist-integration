@@ -1,6 +1,7 @@
 ---
-title: "Write up"
+title: "Sensitive Species Data in the Living Atlas"
 author: "Kyle Nessen"
+date: "2025-06-24"
 format: html
 editor: visual
 ---
@@ -13,16 +14,62 @@ Environmental reviews rely on current and abundant geospatial records of sensiti
 
 Environmental review is a required step in all major development projects. This process involves identifying the proposed site, querying all nearby sensitive species occurrence records, and making determinations about what a survey is likely to encounter. Regulators review this work, and determine next steps based on what they find.
 
-The issue with this approach, is that only a fraction of the available data is being used, and almost all of it is stale.
+The issue with this approach is that only a fraction of the available data is being used, and almost all of it is stale.
 
-Services like GBIF do an excellent job of collecting the observations of scattered museums and herbaria, and purpose built databases like CNDDB offer top tier records of California's protected species. However, the production of these records are costly and time intensive. All of these repositories have backlogs, many going back years or decades. The pace of fresh data, those observations within the last three years, are woefully lacking behind. And when considered all together, those records are being far outpaced by modern tools that allow for anyone to record observations.
+Services like GBIF do an excellent job of collecting the observations of scattered museums and herbaria, and purpose-built databases like CNDDB offer top-tier records of California's protected species. However, the production of these records is costly and time intensive. All of these repositories have backlogs, many going back years or decades. The pace of fresh data—those observations within the last three years—is woefully lacking. And when considered all together, those records are being far outpaced by modern tools that allow anyone to record observations.
 
-INaturalist is the world's largest community science project ever attempted. As of this writing, there are 158 *million* observations that are research grade. This means that approximately 2.9 million people have taken a photo of some wild organism, proposed an ID, and then had others in the community reach a consensus. In total, more than 434,000 unique species have been observed this way, many of which are protected by law.
+iNaturalist is the world's largest community science project ever attempted. As of this writing, there are 158 million observations that are research grade. This means that approximately 2.9 million people have taken a photo of some wild organism, proposed an ID, and then had others in the community reach a consensus. In total, more than 434,000 unique species have been observed this way, many of which are protected by law.
 
-As policy, iNaturalist *obscures* the location of any rare species. This means, the latitude and longitude are randomly shuffled within a 2 mile radius, making them useless for environmental review. The user has no ability to undo this process. At most, they can share the true location of their observations with any "trusted" user that asks. The consequence of this policy is that a vanishingly small minority of organizations (with great effort) have access to these records, thereby excluding the possibility of any widespread adoption, erasing the critical value of this information.
+As policy, iNaturalist obscures the location of any rare species. This means the latitude and longitude are randomly shuffled within a 2-mile radius, making them useless for environmental review. The user has no ability to undo this process. At most, they can share the true location of their observations with any "trusted" user that asks. The consequence of this policy is that a vanishingly small minority of organizations (with great effort) have access to these records, thereby excluding the possibility of any widespread adoption, erasing the critical value of this information.
+
+By my estimates, 96% of recent occurrence records for sensitive species are locked away, invisible to the very professionals who need them most.
+
+
 
 ## A Solution
 
 The environmental review I describe above, at its core, is a GIS exercise. Out of a 100 environmental reviews, 98 are done with Esri products. ArcGIS is far and away the dominant tool used in environmental consulting firms, nonprofits, and government agencies.
 
-The Living Atlas, an ambitious project to collect our geospatial information in one place, is an ideal place to
+The Living Atlas, an ambitious project to collect our geospatial information in one place, is an ideal place to host this critical conservation data. By creating an exclusive partnership between Esri and iNaturalist, we can unlock this treasure trove of information while maintaining appropriate security controls.
+
+The mechanism is straightforward: iNaturalist provides Esri with access to its unobscured sensitive species data. Esri integrates this as a premium layer within the Living Atlas, available only to licensed users. This creates a controlled access model similar to existing subscription services like CNDDB, providing precedent and giving iNaturalist assurance that their data won't be released indiscriminately to the public.
+
+## Win-Win Scenarios
+
+This partnership creates value for every stakeholder involved:
+
+**Esri Wins:**
+
+-   Gains an exclusive, vital data product that instantly adds value to the Living Atlas
+
+-   Strengthens ecosystem lock-in as environmental firms will need Esri licenses to access the most current sensitive species data
+
+-   Once regulators see the wealth of new information available, they'll likely mandate its use, driving further adoption
+
+-   Positions Esri as a key player in addressing the extinction crisis
+
+**iNaturalist Wins:**
+
+-   Secures sustainable funding to continue operating as a public good
+
+-   Advances its conservation mission by ensuring its data contributes to better environmental outcomes
+
+-   Maintains control over data distribution through a trusted partner
+
+-   Avoids the need to monetize directly or cease operations due to high infrastructure costs
+
+**The Environment Wins:**
+
+-   Environmental reviews will be based on comprehensive, current data
+
+-   Better data leads to more informed decisions and effective protections
+
+-   The gap between observation and application shrinks from years to days
+
+**The Public Wins:**
+
+-   Preserves iNaturalist as a free, accessible platform for citizen science
+
+-   Ensures this vital public good remains viable. The equivalent of Wikipedia for biodiversity
+
+-   Maintains public engagement with nature while supporting professional conservation efforts
